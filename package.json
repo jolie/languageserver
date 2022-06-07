@@ -15,7 +15,7 @@
       "email": "vicki@mixen.dk"
     }
   ],
-  "version": "1.0.0",
+  "version": "1.0.4",
   "license": "MIT",
   "keywords": [
     "jolie",
@@ -24,7 +24,7 @@
   "scripts": {
     "jolive": "npx nodemon --exec jolie ./launcher.ol",
     "clean": "rm ./hs_err_pid*",
-    "preinstall": "npx --package=@jolie/jpm@ts -- jpm hooks:preinstall -allowGlobal",
+    "preinstall": "npx --package=@jolie/jpm@ts -- jpm hooks:preinstall --allowGlobal",
     "postinstall": "npx --package=@jolie/jpm@ts -- jpm hooks:postinstall",
     "prepack": "npx --package=@jolie/jpm@ts -- jpm hooks:prepack"
   },
