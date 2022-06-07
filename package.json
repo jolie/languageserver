@@ -1,0 +1,44 @@
+{
+  "name": "@jolie/languageserver",
+  "description": "An implementation of the Language Server Protocol for Jolie language.",
+  "collaborators": [
+    {
+      "name": "Eros Fabrici"
+    },
+    {
+      "name": "Fabrizio Montesi",
+      "email": "famontesi@gmail.com",
+      "url": "https://www.fabriziomontesi.com/"
+    },
+    {
+      "name": "Vicki Mixen",
+      "email": "vicki@mixen.dk"
+    }
+  ],
+  "version": "1.0.0",
+  "license": "MIT",
+  "keywords": [
+    "jolie",
+    "microservices"
+  ],
+  "scripts": {
+    "jolive": "npx nodemon --exec jolie ./launcher.ol",
+    "clean": "rm ./hs_err_pid*",
+    "preinstall": "npx --package=@jolie/jpm@ts -- jpm hooks:preinstall -allowGlobal",
+    "postinstall": "npx --package=@jolie/jpm@ts -- jpm hooks:postinstall",
+    "prepack": "npx --package=@jolie/jpm@ts -- jpm hooks:prepack"
+  },
+  "bin": {
+    "joliels": "./launcher.ol"
+  },
+  "files": [
+    "lib",
+    ".gitignore",
+    "launcher.ol",
+    "lsp.ol",
+    "main.ol",
+    "README.md",
+    "internal",
+    "inspectorJavaService"
+  ]
+}
