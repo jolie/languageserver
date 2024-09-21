@@ -26,6 +26,7 @@ from console import Console
 from string_utils import StringUtils
 from runtime import Runtime
 from file import File
+from math import Math
 from ..inspectorJavaService.inspector import Inspector, CodeCheckExceptionType
 from ..lsp import ServerToClient, InspectionUtilsInterface
 
@@ -41,6 +42,7 @@ service InspectionUtils {
 	embed StringUtils as StringUtils
 	embed Runtime as Runtime
 	embed File as File
+	embed Math as Math
 
 	inputPort InspectionUtils {
 		location: "local://InspectionUtils"
@@ -86,6 +88,11 @@ service InspectionUtils {
 			install( CodeCheckException =>
 				println@Console("CodeCheckException!")()
 				stderr << inspection.CodeCheckException
+
+				valueToPrettyString@StringUtils(codeMessage)(pretty)
+				println@Console("CodeCheckExceptionres:\n"+pretty)()
+				valueToPrettyString@StringUtils(inspection.CodeCheckException)(pretty)
+				println@Console("inspection.CodeCheckExceptionres:\n"+pretty)()
 				for(codeMessage in stderr.exceptions){
 					if(is_defined(codeMessage.context)){
 						startLine << codeMessage.context.startLine
@@ -118,11 +125,11 @@ service InspectionUtils {
 							range << {
 								start << {
 									line = startLine
-									character = startColumn
+									character = abs@Math(startColumn)
 								}
 								end << {
 									line = endLine
-									character = endColumn
+									character = abs@Math(endColumn)
 								}
 							}
 							source = "jolie"
