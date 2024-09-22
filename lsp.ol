@@ -286,6 +286,13 @@ type WorkspaceClientCapabilities {
 		tagSupport? {
 			valueSet*: SymbolTag
 		}
+		/**
+		* The client supports partial workspace symbols. The client will send the
+		* request `workspaceSymbol/resolve` to the server to resolve additional
+		* properties.
+		*
+		* @since 3.17.0 - proposedState
+		*/
 		resolveSupport? {
 			properties*: string
 		}
