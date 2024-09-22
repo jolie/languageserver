@@ -25,7 +25,7 @@
     "microservices"
   ],
   "scripts": {
-    "jolive": "npx nodemon --exec jolie ./launcher.ol",
+    "jolive": "npx nodemon --exec jolie ./launcher.ol 9743",
     "clean": "rm ./hs_err_pid*",
     "postinstall": "npx --package=@jolie/jpm -- jpm hooks:postinstall",
     "prepack": "npx --package=@jolie/jpm -- jpm hooks:prepack"
