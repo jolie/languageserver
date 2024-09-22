@@ -18,7 +18,7 @@
       "name": "Narongrit Unwerawattana"
     }
   ],
-  "version": "2.0.0",
+  "version": "2.0.1",
   "license": "MIT",
   "keywords": [
     "jolie",
@@ -27,7 +27,6 @@
   "scripts": {
     "jolive": "npx nodemon --exec jolie ./launcher.ol",
     "clean": "rm ./hs_err_pid*",
-    "preinstall": "npx --package=@jolie/jpm -- jpm hooks:preinstall -allowGlobal",
     "postinstall": "npx --package=@jolie/jpm -- jpm hooks:postinstall",
     "prepack": "npx --package=@jolie/jpm -- jpm hooks:prepack"
   },
