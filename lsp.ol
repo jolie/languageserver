@@ -270,6 +270,22 @@ type WorkspaceClientCapabilities {
 			*/
 			groupsOnLabel?: bool
 		}
+
+		/**
+		* Whether the client supports `WorkspaceEditMetadata` in `WorkspaceEdit`s.
+		*
+		* @since 3.18.0
+		* @proposed
+		*/
+		metadataSupport?: bool
+
+		/**
+		* Whether the client supports snippets as text edits.
+		*
+		* @since 3.18.0
+		* @proposed
+		*/
+		snippetEditSupport?: bool
 	}
 	didChangeConfiguration? {
 		dynamicRegistration?: bool
