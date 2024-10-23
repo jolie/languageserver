@@ -1130,7 +1130,7 @@ type ServerCapabilities {
 	definitionProvider?: bool
 	typeDefinitionProvider?: undefined //TODO see LSP specification
 	implementationProvider?: undefined //TODO see LSP specification
-	referenceProvider?: undefined //TODO see LSP specification
+	referencesProvider?: undefined //TODO see LSP specification
 	documentHighlightProvider?: bool
 	documentSymbolProvider?: bool
 	codeActionProvider?: bool
@@ -1918,11 +1918,16 @@ type RenameRequest {
 //should be WorkspaceEditResponse
 type RenameResponse: undefined | void
 
+type setTraceReq {
+	value: string
+}
+
 interface GeneralInterface {
 	OneWay:
 		initialized( InitializedParams ),
     	onExit( void ),
-    	cancelRequest
+    	cancelRequest,
+    	setTrace(setTraceReq)
 	RequestResponse:
     	initialize( InitializeParams )( InitializeResult ),
     	shutdown( void )( void )

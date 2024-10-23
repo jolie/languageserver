@@ -60,6 +60,7 @@ service Main(params:Params) {
 			transport = "lsp"
 			osc.onExit.alias = "exit"
 			osc.cancelRequest.alias = "$/cancelRequest"
+			osc.setTrace.alias = "$/setTrace"
 			osc.didOpen.alias = "textDocument/didOpen"
 			osc.didChange.alias = "textDocument/didChange"
 			osc.willSave.alias = "textDocument/willSave"
@@ -128,21 +129,22 @@ service Main(params:Params) {
 			global.processId = initializeParams.processId
 			global.rootUri = initializeParams.rootUri
 			global.clientCapabilities << initializeParams.capabilities
+			global.trace = initializeParams.trace
 			//for full serverCapabilities spec, see
 			// https://microsoft.github.io/language-server-protocol/specification
 			// and types.iol
 			serverCapabilities.capabilities << {
 				textDocumentSync = 1 //0 = none, 1 = full, 2 = incremental
 				completionProvider << {
-				resolveProvider = false
-				triggerCharacters[0] = "@"
+					resolveProvider = false
+					triggerCharacters[0] = "@"
 				}
 				//signatureHelpProvider.triggerCharacters[0] = "("
 				definitionProvider = true
 				hoverProvider = true
 				declarationProvider = false
 				documentSymbolProvider = false
-				referenceProvider = false
+				referencesProvider = false
 				//experimental;
 				workspaceSymbolProvider = true
 				renameProvider = true
@@ -175,6 +177,11 @@ service Main(params:Params) {
 		[ cancelRequest( cancelReq ) ] {
 			println@Console( "cancelRequest received ID: " + cancelReq.id )()
 			//TODO
+		}
+
+		[ setTrace( setTraceReq ) ] {
+			println@Console( "setTrace received value: " + setTraceReq.value )()
+			global.trace = setTraceReq.value
 		}
 
 		// helper to get root uri of the workspace for workspace/symbol and textdocument/rename
