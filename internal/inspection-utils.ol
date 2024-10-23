@@ -55,7 +55,7 @@ service InspectionUtils {
 	}
 
 	init {
-		println@Console("InspectionUtils Service started at "+ global.inputPorts.Utils.location + ".")()//" connected to " + LanguageClient.location )()
+		println@Console("InspectionUtils Service started at "+ global.inputPorts.InspectionUtils.location + ".")()//" connected to " + LanguageClient.location )()
 	}
 
 	define createInspectionReq {
@@ -89,10 +89,10 @@ service InspectionUtils {
 				println@Console("CodeCheckException!")()
 				stderr << inspection.CodeCheckException
 
-				valueToPrettyString@StringUtils(codeMessage)(pretty)
-				println@Console("CodeCheckExceptionres:\n"+pretty)()
-				valueToPrettyString@StringUtils(inspection.CodeCheckException)(pretty)
-				println@Console("inspection.CodeCheckExceptionres:\n"+pretty)()
+				//valueToPrettyString@StringUtils(codeMessage)(pretty)
+				//println@Console("CodeCheckExceptionres:\n"+pretty)()
+				//valueToPrettyString@StringUtils(inspection.CodeCheckException)(pretty)
+				//println@Console("inspection.CodeCheckExceptionres:\n"+pretty)()
 				for(codeMessage in stderr.exceptions){
 					if(is_defined(codeMessage.context)){
 						startLine << codeMessage.context.startLine
