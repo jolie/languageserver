@@ -18,7 +18,7 @@
       "name": "Narongrit Unwerawattana"
     }
   ],
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "MIT",
   "keywords": [
     "jolie",
@@ -27,11 +27,11 @@
   "scripts": {
     "jolive": "npx nodemon --exec jolie ./launcher.ol 9743",
     "clean": "rm ./hs_err_pid*",
-    "postinstall": "npx --package=@jolie/jpm -- jpm hooks:postinstall",
-    "prepack": "npx --package=@jolie/jpm -- jpm hooks:prepack"
+    "postinstall": "npx --package=@jolie/jpm@3.2.0 -- jpm hooks:postinstall",
+    "prepack": "npx --package=@jolie/jpm@3.2.0 -- jpm hooks:prepack ./inspectorJavaService"
   },
   "bin": {
-    "joliels": "./launcher.ol"
+    "joliels": "launcher.ol"
   },
   "files": [
     "lib",
