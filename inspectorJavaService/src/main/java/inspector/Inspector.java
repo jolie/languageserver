@@ -39,6 +39,7 @@ import jolie.lang.parse.ast.types.TypeDefinitionLink;
 import jolie.lang.parse.ast.types.TypeInlineDefinition;
 import jolie.lang.parse.context.ParsingContext;
 import jolie.lang.parse.module.ModuleException;
+import jolie.lang.parse.module.ModuleSource;
 import jolie.lang.parse.module.ImportedSymbolInfo;
 import jolie.lang.parse.module.LocalSymbolInfo;
 import jolie.lang.parse.util.Interfaces;
@@ -549,29 +550,32 @@ public class Inspector extends JavaService {
 		Interpreter interpreter )
 		throws CommandLineException, IOException, CodeCheckException {
 		String[] args = { filename };
-		Interpreter.Configuration interpreterConfiguration =
-			new CommandLineParser( args, Inspector.class.getClassLoader() ).getInterpreterConfiguration();
-		SemanticVerifier.Configuration configuration =
-			new SemanticVerifier.Configuration( interpreterConfiguration.executionTarget() );
-		configuration.setCheckForMain( false ); 
-		final InputStream sourceIs;
-		if( source.isPresent() ) {
-			sourceIs = new ByteArrayInputStream( source.get().getBytes() );
-		} else {
-			sourceIs = interpreterConfiguration.inputStream();
+		try(
+			CommandLineParser cmdParser =
+						new CommandLineParser(args, Inspector.class.getClassLoader())) {
+			Interpreter.Configuration interpreterConfiguration = cmdParser.getInterpreterConfiguration();
+			SemanticVerifier.Configuration configuration = new SemanticVerifier.Configuration(
+					interpreterConfiguration.executionTarget());
+			configuration.setCheckForMain(false);
+			final ModuleSource ms;
+			if (source.isPresent()) {
+				ms = ModuleSource.create(interpreterConfiguration.source().uri(),
+						new ByteArrayInputStream(source.get().getBytes()), ServiceNode.DEFAULT_MAIN_SERVICE_NAME);
+			} else {
+				ms = interpreterConfiguration.source();
+			}
+			Program program = ParsingUtils.parseProgram(
+					ms,
+					interpreterConfiguration.charset(),
+					includePaths,
+					// interpreterConfiguration.packagePaths(),
+					interpreter.configuration().packagePaths(), // TODO make this a parameter from the Jolie request
+					interpreterConfiguration.jolieClassLoader(),
+					interpreterConfiguration.constants(),
+					configuration,
+					true);
+			return ParsingUtils.createInspector(program);
 		}
-		Program program = ParsingUtils.parseProgram(
-			sourceIs,
-			interpreterConfiguration.programFilepath().toURI(),
-			interpreterConfiguration.charset(),
-			includePaths,
-			// interpreterConfiguration.packagePaths(),
-			interpreter.configuration().packagePaths(), // TODO make this a parameter from the Jolie request
-			interpreterConfiguration.jolieClassLoader(),
-			interpreterConfiguration.constants(),
-			configuration,
-			true );
-		return ParsingUtils.createInspector( program );
 	}
 
 	/**
@@ -589,29 +593,32 @@ public class Inspector extends JavaService {
 		Interpreter interpreter )
 		throws CommandLineException, IOException, CodeCheckException {
 		String[] args = { filename };
-		Interpreter.Configuration interpreterConfiguration =
-			new CommandLineParser( args, Inspector.class.getClassLoader() ).getInterpreterConfiguration();
-		SemanticVerifier.Configuration configuration =
-			new SemanticVerifier.Configuration( interpreterConfiguration.executionTarget() );
-		configuration.setCheckForMain( false );
-		final InputStream sourceIs;
-		if( source.isPresent() ) {
-			sourceIs = new ByteArrayInputStream( source.get().getBytes() );
-		} else {
-			sourceIs = interpreterConfiguration.inputStream();
+		try(
+			CommandLineParser cmdParser =
+						new CommandLineParser(args, Inspector.class.getClassLoader())) {
+			Interpreter.Configuration interpreterConfiguration = cmdParser.getInterpreterConfiguration();
+			SemanticVerifier.Configuration configuration = new SemanticVerifier.Configuration(
+					interpreterConfiguration.executionTarget());
+			configuration.setCheckForMain(false);
+			final ModuleSource ms;
+			if (source.isPresent()) {
+				ms = ModuleSource.create(interpreterConfiguration.source().uri(),
+						new ByteArrayInputStream(source.get().getBytes()), ServiceNode.DEFAULT_MAIN_SERVICE_NAME);
+			} else {
+				ms = interpreterConfiguration.source();
+			}
+			SemanticVerifier semanticVerifierResult = ParsingUtils.parseProgramModule(
+					ms,
+					interpreterConfiguration.charset(),
+					includePaths,
+					// interpreterConfiguration.packagePaths(),
+					interpreter.configuration().packagePaths(), // TODO make this a parameter from the Jolie request
+					interpreterConfiguration.jolieClassLoader(),
+					interpreterConfiguration.constants(),
+					configuration,
+					true);
+			return semanticVerifierResult;
 		}
-		SemanticVerifier semanticVerifierResult = ParsingUtils.parseProgramModule(
-			sourceIs,
-			interpreterConfiguration.programFilepath().toURI(),
-			interpreterConfiguration.charset(),
-			includePaths,
-			// interpreterConfiguration.packagePaths(),
-			interpreter.configuration().packagePaths(), // TODO make this a parameter from the Jolie request
-			interpreterConfiguration.jolieClassLoader(),
-			interpreterConfiguration.constants(),
-			configuration,
-			true );
-		return semanticVerifierResult;
 	}
 
 	/**

@@ -13,23 +13,24 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
+		<jolie.version>1.13.4</jolie.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.jolie-lang</groupId>
 			<artifactId>jolie</artifactId>
-			<version>1.11.0-git</version>			<!--probably change this 10 1.11.0, when new version is published-->
+			<version>${jolie.version}</version>			<!--probably change this 10 1.11.0, when new version is published-->
 		</dependency>
 		<dependency>
 			<groupId>org.jolie-lang</groupId>
 			<artifactId>libjolie</artifactId>
-			<version>1.11.0-git</version>
+			<version>${jolie.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jolie-lang</groupId>
 			<artifactId>jolie-cli</artifactId>
-			<version>1.11.0-git</version>
+			<version>${jolie.version}</version>
 		</dependency>
 	</dependencies>
 
