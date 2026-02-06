@@ -26,10 +26,12 @@ SOFTWARE.
 
 from runtime import Runtime
 from file import File
+from string-utils import StringUtils
 
 service Launcher {
 	embed Runtime as runtime
 	embed File as file
+	embed StringUtils as stringUtils
 
 	main {
 		if ( is_defined( args[0] ) ) {
@@ -41,6 +43,8 @@ service Launcher {
 		config.location = "socket://localhost:" + port
 
 		getRealServiceDirectory@file()( home )
+		//URI escape spaces
+		replaceAll@stringUtils( home{replacement = "%20", regex = " "} )( home )
 		getFileSeparator@file()( sep )
 		loadLibrary@runtime(home + sep + "lib" + sep + "jolie-inspector-0.1.0.jar")()
 
